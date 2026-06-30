@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relatório PMAX — Impacto da Mudança de Segmentação | Junho 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #1a1a2e;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 48px 52px;
+    }
+
+    /* HEADER */
+    .report-header {
+      border-bottom: 3px solid #0052cc;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .report-header h1 {
+      font-size: 26px;
+      color: #0052cc;
+      font-weight: 700;
+    }
+    .report-header h2 {
+      font-size: 17px;
+      color: #444;
+      font-weight: 400;
+      margin-top: 6px;
+    }
+    .meta {
+      display: flex;
+      gap: 32px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .meta span {
+      font-size: 13px;
+      color: #555;
+      background: #f0f4ff;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .meta span strong { color: #0052cc; }
+
+    /* SECTIONS */
+    h2.section-title {
+      font-size: 18px;
+      color: #0052cc;
+      margin: 36px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e0e8ff;
+    }
+    h3.sub-title {
+      font-size: 15px;
+      color: #1a1a2e;
+      margin: 22px 0 8px;
+      font-weight: 600;
+    }
+    p { font-size: 14px; line-height: 1.75; color: #333; margin-bottom: 10px; }
+    ul { padding-left: 20px; margin-bottom: 10px; }
+    ul li { font-size: 14px; line-height: 1.75; color: #333; margin-bottom: 4px; }
+    strong { color: #1a1a2e; }
+
+    /* CALLOUT */
+    .callout {
+      border-left: 4px solid #0052cc;
+      background: #f0f4ff;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #222;
+    }
+    .callout.red   { border-color: #d32f2f; background: #fff5f5; }
+    .callout.green { border-color: #2e7d32; background: #f5fff5; }
+    .callout.yellow{ border-color: #f57f17; background: #fffde7; }
+
+    /* TABLES */
+    .table-wrap { overflow-x: auto; margin: 16px 0 24px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    thead tr { background: #0052cc; color: #fff; }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; }
+    tbody tr:nth-child(even) { background: #f4f6f9; }
+    tbody tr:hover { background: #e8eeff; }
+    tbody td { padding: 9px 14px; border-bottom: 1px solid #e4e8f0; vertical-align: middle; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge.red    { background: #fdecea; color: #c62828; }
+    .badge.green  { background: #e8f5e9; color: #2e7d32; }
+    .badge.yellow { background: #fffde7; color: #f57f17; }
+    .badge.neutral{ background: #f0f4ff; color: #0052cc; }
+
+    /* CONTEXT TABLE */
+    .context-table thead tr { background: #1a3a6e; }
+
+    /* TREND TABLE */
+    .trend-icon { font-size: 15px; margin-right: 4px; }
+
+    /* IMPACT CARDS */
+    .impact-cards {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin: 16px 0 24px;
+    }
+    .card {
+      flex: 1;
+      min-width: 200px;
+      border-radius: 10px;
+      padding: 20px 22px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .card.red    { background: #fff5f5; border-top: 4px solid #d32f2f; }
+    .card.green  { background: #f5fff5; border-top: 4px solid #2e7d32; }
+    .card.yellow { background: #fffde7; border-top: 4px solid #f57f17; }
+    .card .card-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .card.red    .card-value { color: #c62828; }
+    .card.green  .card-value { color: #2e7d32; }
+    .card.yellow .card-value { color: #f57f17; }
+    .card .card-label { font-size: 12px; color: #555; font-weight: 500; }
+
+    /* CONCLUSION LIST */
+    .conclusion-list { list-style: none; padding: 0; }
+    .conclusion-list li {
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .conclusion-list li.red    { background: #fff5f5; border-left: 4px solid #d32f2f; }
+    .conclusion-list li.green  { background: #f5fff5; border-left: 4px solid #2e7d32; }
+
+    /* RECOMENDATIONS */
+    .rec-box {
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .rec-box.urgent { background: #fff5f5; border-left: 5px solid #d32f2f; }
+    .rec-box.structural { background: #f0f4ff; border-left: 5px solid #0052cc; }
+    .rec-box.other { background: #f5fff5; border-left: 5px solid #2e7d32; }
+    .rec-box h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .rec-box.urgent h4 { color: #c62828; }
+    .rec-box.structural h4 { color: #0052cc; }
+    .rec-box.other h4 { color: #2e7d32; }
+
+    /* FOOTER */
+    .report-footer {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid #e0e8ff;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+    }
+
+    hr { border: none; border-top: 1px solid #e0e8ff; margin: 32px 0; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .container { box-shadow: none; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="report-header">
+    <h1>📋 Relatório de Performance — Campanha PMAX</h1>
+    <h2>Impacto da Mudança de Segmentação | Junho 2026</h2>
+    <div class="meta">
+      <span><strong>Elaborado por:</strong> Time de Marketing de Performance</span>
+      <span><strong>Data:</strong> 30/06/2026</span>
+      <span><strong>Distribuição:</strong> Time Comercial — Iniciativa Pneus</span>
+    </div>
+  </div>
+
+  <!-- 1. CONTEXTO -->
+  <h2 class="section-title">1. Contexto da Mudança</h2>
+  <p>Em <strong>09 de junho de 2026</strong>, realizamos uma alteração estratégica na segmentação da campanha <strong>Performance Max (PMAX)</strong> no Google Shopping:</p>
+
+  <div class="table-wrap">
+    <table class="context-table">
+      <thead>
+        <tr><th></th><th>Antes (até 08/06)</th><th>Depois (a partir de 09/06)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Verticais ativas</strong></td><td>Automotivo + Pneus</td><td>Apenas Pneus</td></tr>
+        <tr><td><strong>Sellers Automotivo</strong></td><td>90 sellers</td><td>0 sellers (removidos)</td></tr>
+        <tr><td><strong>Sellers Pneus</strong></td><td>5 sellers</td><td>5 sellers (mantidos)</td></tr>
+        <tr><td><strong>Total de sellers</strong></td><td><strong>95 sellers</strong></td><td><strong>5 sellers</strong></td></tr>
+        <tr><td><strong>Período analisado</strong></td><td>22/05 a 08/06 (18 dias)</td><td>09/06 a 28/06 (20 dias)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    A mudança representou a <strong>remoção de 90 sellers da vertical automotivo</strong>, mantendo apenas os 5 sellers de pneus já existentes — uma redução de <strong>94,7% no número de sellers ativos</strong>.
+  </div>
+
+  <!-- 2. RESUMO EXECUTIVO -->
+  <h2 class="section-title">2. Resumo Executivo</h2>
+  <div class="callout red">
+    🔴 <strong>A mudança de segmentação gerou impacto negativo em praticamente todos os indicadores de volume e eficiência da campanha.</strong> A remoção de 90 sellers da vertical automotivo reduziu em 95% a diversidade da campanha, provocando queda de 49% no GMV com apenas 32% de corte de investimento. O ROAS deteriorou 27%, o volume de pedidos recuou 61% e a campanha segue em piora progressiva sem sinais de estabilização. O único indicador positivo foi o Ticket Médio (TKM), que cresceu 32% — insuficiente para compensar as perdas.
+  </div>
+
+  <!-- 3. COMPARATIVO DE KPIs -->
+  <h2 class="section-title">3. Comparativo Geral de KPIs — Antes vs. Depois</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>KPI</th><th>Antes (22/05–08/06)</th><th>Depois (09/06–28/06)</th><th>Variação</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Investimento médio/dia</strong></td><td>R$ 20.181</td><td>R$ 13.661</td><td><span class="badge red">🔴 -32,3%</span></td></tr>
+        <tr><td><strong>GMV médio/dia</strong></td><td>R$ 249.673</td><td>R$ 126.948</td><td><span class="badge red">🔴 -49,1%</span></td></tr>
+        <tr><td><strong>ROAS</strong></td><td>12,6x</td><td>9,2x</td><td><span class="badge red">🔴 -27,0%</span></td></tr>
+        <tr><td><strong>Visitas/dia</strong></td><td>44.901</td><td>12.090</td><td><span class="badge red">🔴 -73,1%</span></td></tr>
+        <tr><td><strong>CPV (Custo por Visita)</strong></td><td>R$ 0,47</td><td>R$ 1,13</td><td><span class="badge red">🔴 +140,4%</span></td></tr>
+        <tr><td><strong>Cliques/dia</strong></td><td>65.547</td><td>19.085</td><td><span class="badge red">🔴 -70,9%</span></td></tr>
+        <tr><td><strong>Impressões/dia</strong></td><td>2.088.822</td><td>771.756</td><td><span class="badge red">🔴 -63,0%</span></td></tr>
+        <tr><td><strong>CTR</strong></td><td>3,12%</td><td>2,51%</td><td><span class="badge red">🔴 -19,6%</span></td></tr>
+        <tr><td><strong>CPC</strong></td><td>R$ 0,37</td><td>R$ 0,72</td><td><span class="badge red">🔴 +94,6%</span></td></tr>
+        <tr><td><strong>CVR (Taxa de Conversão)</strong></td><td>0,55%</td><td>0,65%</td><td><span class="badge yellow">🟡 +18,2%</span></td></tr>
+        <tr><td><strong>TKM (Ticket Médio)</strong></td><td>R$ 764</td><td>R$ 1.012</td><td><span class="badge green">🟢 +32,5%</span></td></tr>
+        <tr><td><strong>CPA</strong></td><td>R$ 61,30</td><td>R$ 113,11</td><td><span class="badge red">🔴 +84,5%</span></td></tr>
+        <tr><td><strong>Pedidos/dia</strong></td><td>326</td><td>128</td><td><span class="badge red">🔴 -60,7%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. ANÁLISE DETALHADA -->
+  <h2 class="section-title">4. Análise Detalhada por KPI</h2>
+
+  <h3 class="sub-title">4.1 💰 Investimento &amp; GMV</h3>
+  <p>O investimento foi reduzido em <strong>32%</strong>, porém a receita (GMV) caiu <strong>49%</strong> — a queda de receita foi proporcionalmente maior que o corte de budget. Isso demonstra que a campanha <strong>perdeu alavancagem financeira</strong>: cada real investido passou a gerar menos retorno.</p>
+  <p>A vertical automotivo, com seus <strong>90 sellers removidos</strong>, era responsável pela maior parte do catálogo ativo da campanha, cobrindo uma amplitude enorme de queries e intenções de compra no Google Shopping.</p>
+
+  <h3 class="sub-title">4.2 📈 ROAS</h3>
+  <p>O ROAS caiu de <strong>12,6x para 9,2x</strong> (-27%). Com a segmentação reduzida de 95 para apenas 5 sellers, o algoritmo da PMAX perdeu <strong>diversidade de sinais de conversão</strong> e capacidade de otimização em leilão. O modelo de machine learning do Google Shopping funciona melhor com maior diversidade de produtos — e a remoção de 90 sellers representa um choque severo nessa base de aprendizado.</p>
+
+  <h3 class="sub-title">4.3 👁️ Impressões, Cliques &amp; Visitas</h3>
+  <ul>
+    <li>Perda de <strong>63% nas impressões</strong> e <strong>71% nos cliques e visitas</strong></li>
+    <li>Ao remover os 90 sellers de automotivo, a campanha deixou de competir em centenas de queries relevantes no Google Shopping</li>
+    <li>O CTR caiu de 3,12% para 2,51%, indicando que os anúncios de pneus têm menor relevância percebida ou estão sendo exibidos em posições piores nos leilões</li>
+  </ul>
+
+  <h3 class="sub-title">4.4 💸 CPC &amp; CPV</h3>
+  <ul>
+    <li>O <strong>CPC quase dobrou</strong>: de R$ 0,37 → R$ 0,72 (+95%). Com apenas 5 sellers, a PMAX passou a disputar leilões mais concorridos dentro do nicho de pneus, sem a vantagem competitiva da diversidade dos 90 sellers anteriores</li>
+    <li>O <strong>CPV triplicou</strong>: de R$ 0,47 → R$ 1,13 (+140%), tornando a geração de visitas qualificadas muito mais cara</li>
+  </ul>
+
+  <h3 class="sub-title">4.5 🛒 CVR &amp; TKM</h3>
+  <ul>
+    <li>A <strong>CVR subiu inicialmente</strong> para 0,82% na primeira semana pós-mudança, mas já recuou para 0,47% na terceira semana — abaixo do baseline — indicando esgotamento de audiência qualificada</li>
+    <li>O <strong>TKM cresceu consistentemente</strong> de R$ 764 para R$ 1.012 (+32,5%). Pneus têm ticket médio naturalmente mais alto que produtos automotivos genéricos. Contudo, esse ganho isolado não compensa as perdas nos demais indicadores</li>
+  </ul>
+
+  <h3 class="sub-title">4.6 📦 Pedidos &amp; CPA</h3>
+  <ul>
+    <li>Os pedidos diários caíram de <strong>326 para 128 (-61%)</strong>. A operação perdeu mais de 60% do seu volume de conversões</li>
+    <li>O <strong>CPA quase dobrou</strong>: de R$ 61 para R$ 113 (+84%). Cada pedido passou a custar quase o dobro para ser gerado</li>
+  </ul>
+
+  <!-- 5. EVOLUÇÃO SEMANAL -->
+  <h2 class="section-title">5. Evolução Semanal Pós-Mudança</h2>
+  <p>A tabela abaixo compara os 5 KPIs estratégicos semana a semana, com o período anterior como baseline:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Período</th>
+          <th>ROAS</th><th>Var. ROAS</th>
+          <th>CTR</th><th>Var. CTR</th>
+          <th>CPC</th><th>Var. CPC</th>
+          <th>TKM</th><th>Var. TKM</th>
+          <th>CVR</th><th>Var. CVR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Antes (22/05–08/06)</strong></td>
+          <td>12,6x</td><td><span class="badge neutral">—</span></td>
+          <td>3,12%</td><td><span class="badge neutral">—</span></td>
+          <td>R$ 0,37</td><td><span class="badge neutral">—</span></td>
+          <td>R$ 764</td><td><span class="badge neutral">—</span></td>
+          <td>0,55%</td><td><span class="badge neutral">—</span></td>
+        </tr>
+        <tr>
+          <td><strong>Semana 1 (09–15/06)</strong></td>
+          <td>10,8x</td><td><span class="badge red">-14,3%</span></td>
+          <td>2,66%</td><td><span class="badge red">-14,7%</span></td>
+          <td>R$ 0,76</td><td><span class="badge red">+105,4%</span></td>
+          <td>R$ 903</td><td><span class="badge green">+18,2%</span></td>
+          <td>0,82%</td><td><span class="badge green">+49,1%</span></td>
+        </tr>
+        <tr>
+          <td><strong>Semana 2 (16–22/06)</strong></td>
+          <td>8,7x</td><td><span class="badge red">-30,9%</span></td>
+          <td>2,59%</td><td><span class="badge red">-17,0%</span></td>
+          <td>R$ 0,69</td><td><span class="badge red">+86,5%</span></td>
+          <td>R$ 1.038</td><td><span class="badge green">+35,9%</span></td>
+          <td>0,61%</td><td><span class="badge yellow">+10,9%</span></td>
+        </tr>
+        <tr>
+          <td><strong>Semana 3 (23–28/06)</strong></td>
+          <td>8,1x</td><td><span class="badge red">-35,7%</span></td>
+          <td>2,43%</td><td><span class="badge red">-22,1%</span></td>
+          <td>R$ 0,66</td><td><span class="badge red">+78,4%</span></td>
+          <td>R$ 1.079</td><td><span class="badge green">+41,2%</span></td>
+          <td>0,47%</td><td><span class="badge red">-14,5%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px; color:#888;">* Todas as variações calculadas em relação ao período anterior à mudança (22/05–08/06).</p>
+
+  <h3 class="sub-title">Leitura da Tendência</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>KPI</th><th>Tendência</th><th>Diagnóstico</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ROAS</strong></td><td>📉 Queda contínua</td><td>Eficiência do canal deteriorando sem sinais de recuperação</td></tr>
+        <tr><td><strong>CTR</strong></td><td>📉 Queda contínua</td><td>Anúncios menos relevantes ou posições piores nos leilões</td></tr>
+        <tr><td><strong>CPC</strong></td><td>🟡 Caiu levemente, ainda alto</td><td>Algoritmo se ajustando, mas custo ainda ~80% acima do baseline</td></tr>
+        <tr><td><strong>TKM</strong></td><td>📈 Crescimento consistente</td><td>Único benefício real da segmentação restrita</td></tr>
+        <tr><td><strong>CVR</strong></td><td>📉 Pico e queda</td><td>Esgotamento progressivo de audiência qualificada</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <strong>Diagnóstico central:</strong> o algoritmo da PMAX <strong>não encontrou equilíbrio</strong> após a mudança. A piora progressiva de ROAS, CTR e CVR semana após semana indica que a campanha continua em deterioração, sem perspectiva de estabilização no curto prazo com apenas 5 sellers ativos.
+  </div>
+
+  <!-- 6. IMPACTO FINANCEIRO -->
+  <h2 class="section-title">6. Impacto Financeiro Estimado</h2>
+  <p>Considerando os 20 dias após a mudança (09/06 a 28/06):</p>
+
+  <div class="impact-cards">
+    <div class="card red">
+      <div class="card-value">-R$ 2,45M</div>
+      <div class="card-label">GMV não realizado<br/>(R$ 2.538.960 vs. R$ 4.993.460 projetado)</div>
+    </div>
+    <div class="card red">
+      <div class="card-value">-3.960</div>
+      <div class="card-label">Pedidos perdidos<br/>(2.560 vs. 6.520 projetados)</div>
+    </div>
+    <div class="card yellow">
+      <div class="card-value">-R$ 130k</div>
+      <div class="card-label">Investimento economizado<br/>(R$ 273.220 vs. R$ 403.620)</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Métrica</th><th>Realizado (pós-mudança)</th><th>Projeção (sem mudança)</th><th>Diferença</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GMV Total</strong></td><td>R$ 2.538.960</td><td>R$ 4.993.460</td><td><span class="badge red">-R$ 2.454.500</span></td></tr>
+        <tr><td><strong>Pedidos Totais</strong></td><td>2.560</td><td>6.520</td><td><span class="badge red">-3.960 pedidos</span></td></tr>
+        <tr><td><strong>Investimento Total</strong></td><td>R$ 273.220</td><td>R$ 403.620</td><td><span class="badge yellow">-R$ 130.400</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px; color:#888;">* Projeção calculada com base na média diária do período anterior à mudança.</p>
+
+  <!-- 7. CONCLUSÃO -->
+  <h2 class="section-title">7. Conclusão</h2>
+  <p>A mudança de segmentação realizada em 09/06 — com a <strong>remoção de 90 sellers da vertical automotivo</strong>, mantendo apenas 5 sellers de pneus — gerou <strong>impacto extremamente negativo</strong> na campanha PMAX:</p>
+  <ul class="conclusion-list" style="margin-top:14px;">
+    <li class="red">🔴 <strong>A remoção de 90 sellers foi um choque severo para o algoritmo:</strong> a PMAX passou de 95 para 5 sellers ativos (-94,7%), perdendo a massa crítica de dados necessária para otimização eficiente</li>
+    <li class="red">🔴 <strong>O GMV caiu quase 50% com apenas 32% de corte de investimento:</strong> o canal ficou ineficiente, não apenas menor — cada real investido passou a gerar menos retorno</li>
+    <li class="red">🔴 <strong>A piora é progressiva e sem estabilização:</strong> ROAS, CTR e CVR continuam caindo semana após semana, sem sinal de que o modelo encontrou novo equilíbrio</li>
+    <li class="green">🟢 <strong>O único benefício foi o TKM (+32%):</strong> pneus têm ticket mais alto, mas esse ganho é amplamente insuficiente para compensar a perda de volume e eficiência</li>
+  </ul>
+
+  <!-- 8. RECOMENDAÇÕES -->
+  <h2 class="section-title">8. Recomendações</h2>
+
+  <div class="rec-box urgent">
+    <h4>🚨 Ação Imediata (curto prazo)</h4>
+    <p><strong>Reintegrar os 90 sellers da vertical automotivo</strong> o quanto antes para resgatar volume e fornecer ao algoritmo os sinais necessários para otimização. Quanto mais tempo a campanha permanecer com apenas 5 sellers, maior será o apagamento do histórico de aprendizado.</p>
+  </div>
+
+  <div class="rec-box structural">
+    <h4>💡 Ação Estrutural (médio prazo)</h4>
+    <p>Se o objetivo estratégico é <strong>focar em pneus</strong>, a melhor abordagem é criar uma <strong>campanha PMAX exclusiva para pneus</strong> em paralelo — sem remover os 90 sellers automotivos da campanha existente. Isso permite testar a vertical de pneus de forma isolada sem comprometer a performance geral.</p>
+  </div>
+
+  <div class="rec-box other">
+    <h4>📌 Outras Recomendações</h4>
+    <ul>
+      <li><strong>Ampliar o pool de sellers de pneus</strong> além dos 5 atuais, para aumentar competitividade nos leilões e dar mais diversidade ao algoritmo dentro da vertical</li>
+      <li><strong>Monitorar o período de aprendizado:</strong> caso a configuração atual seja mantida, estimar 4–6 semanas adicionais para eventual reestabilização, com ROAS estruturalmente mais baixo (~8–9x)</li>
+      <li><strong>Revisar metas de ROAS e CPA</strong> para o período de transição, evitando decisões de budget baseadas em benchmarks do período anterior (com 95 sellers ativos)</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="report-footer">
+    <p>Relatório gerado com base nos dados de 22/05/2026 a 28/06/2026.</p>
+    <p>Fonte: Google Ads — Campanha PMAX &nbsp;|&nbsp; Análise: Time de Marketing de Performance</p>
+  </div>
+
+</div>
+</body>
+</html>
